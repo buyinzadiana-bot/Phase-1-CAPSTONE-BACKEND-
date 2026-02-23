@@ -40,10 +40,18 @@ public class UniversityManager {
         System.out.println(student.getName() + " enrolled in " + course.getCourseName());
     }
 
-    // ⭐ ADD THIS HERE
+    // Find top student
     public Student findTopStudent() {
         return students.stream()
                 .max(Comparator.comparing(Student::getGpa))
                 .orElse(null);
+    }
+
+    // ⭐ Calculate average GPA
+    public double calculateAverageGpa() {
+        return students.stream()
+                .mapToDouble(Student::getGpa)
+                .average()
+                .orElse(0.0); // return 0.0 if no students
     }
 }
