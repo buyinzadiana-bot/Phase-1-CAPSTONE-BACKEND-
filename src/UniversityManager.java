@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Comparator;
 
 public class UniversityManager {
 
@@ -27,15 +28,22 @@ public class UniversityManager {
             throw new StudentAlreadyEnrolledException("Student already enrolled!");
         }
 
-        // Check if course is full (example limit = 3 students)
+        // Check if course is full
         if (course.getStudents().size() >= 3) {
             throw new CourseFullException("Course is full!");
         }
 
         // Enroll student
         course.addStudent(student);
-        student.addCourse(course, 0.0); // default grade
+        student.addCourse(course, 0.0);
 
         System.out.println(student.getName() + " enrolled in " + course.getCourseName());
+    }
+
+    // ⭐ ADD THIS HERE
+    public Student findTopStudent() {
+        return students.stream()
+                .max(Comparator.comparing(Student::getGpa))
+                .orElse(null);
     }
 }
