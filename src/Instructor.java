@@ -6,6 +6,11 @@ public class Instructor extends Person {
         this.department = department;
     }
 
+    @Override
+    public double calculateTuition() {
+        return 0.0; // instructors don't pay tuition
+    }
+
     public String getDepartment() {
         return department;
     }

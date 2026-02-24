@@ -1,7 +1,7 @@
 public class UndergraduateStudent extends Student {
 
-    public UndergraduateStudent(String name, int age, String studentId) {
-        super(name, age, studentId);
+    public UndergraduateStudent(String name, int age, String studentId, double gpa) {
+        super(name, age, studentId, gpa);
     }
 
     public double calculateTuition() {
