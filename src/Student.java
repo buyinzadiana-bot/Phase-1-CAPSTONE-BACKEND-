@@ -8,7 +8,7 @@ public class Student extends Person {
     // Stores courses and grades
     private Map<Course, Double> courseGrades;
 
-    public Student(String name, int age, String studentId) {
+    public Student(String name, int age, String studentId,double gpa) {
         super(name, age);
         this.studentId = studentId;
         this.gpa = 0.0;
@@ -43,5 +43,9 @@ public class Student extends Person {
 
     public Map<Course, Double> getCourseGrades() {
         return courseGrades;
+    }
+    @Override
+    public double calculateTuition() {
+        return 0.0; // default (will be overridden)
     }
 }

@@ -8,6 +8,9 @@ public abstract class Person {
         this.age = age;
     }
 
+    // Abstract method (VERY IMPORTANT)
+    public abstract double calculateTuition();
+
     // Getters
     public String getName() {
         return name;

@@ -35,7 +35,7 @@ public class UniversityManager {
 
         // Enroll student
         course.addStudent(student);
-        student.addCourse(course, 0.0);
+        student.addCourseGrade(course, 0.0);
 
         System.out.println(student.getName() + " enrolled in " + course.getCourseName());
     }
