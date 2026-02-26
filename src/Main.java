@@ -1,26 +1,95 @@
+import java.util.Scanner;
+
 public class Main {
     public static void main(String[] args) {
 
         UniversityManager manager = new UniversityManager();
+        FileManager.loadData(manager, "data.dat"); // load previous data
 
-        Student s1 = new Student("Alice", 20, "S001", 3.8);
-        Student s2 = new Student("Bob", 22, "S002", 3.5);
+        Scanner scanner = new Scanner(System.in);
+        boolean running = true;
 
-        Course c1 = new Course("Java Programming", 3);
+        while (running) {
+            System.out.println("\n=== UNIVERSITY MENU ===");
+            System.out.println("1. Register Student");
+            System.out.println("2. Enroll in Course");
+            System.out.println("3. View Student Record");
+            System.out.println("4. Dean's List");
+            System.out.println("5. Save & Exit");
+            System.out.print("Choose an option: ");
 
-        manager.registerStudent(s1);
-        manager.registerStudent(s2);
+            int choice = scanner.nextInt();
+            scanner.nextLine(); // consume newline
 
-        manager.createCourse(c1);
+            switch (choice) {
+                case 1: // Register Student
+                    System.out.print("Enter name: ");
+                    String name = scanner.nextLine();
+                    System.out.print("Enter age: ");
+                    int age = scanner.nextInt();
+                    scanner.nextLine();
+                    System.out.print("Enter student ID: ");
+                    String id = scanner.nextLine();
+                    System.out.print("Enter GPA: ");
+                    double gpa = scanner.nextDouble();
+                    scanner.nextLine();
 
-        try {
-            manager.enrollStudentInCourse(s1, c1);
-            manager.enrollStudentInCourse(s2, c1);
-        } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
+                    Student s = new Student(name, age, id, gpa);
+                    manager.registerStudent(s);
+                    break;
+
+                case 2: // Enroll in Course
+                    System.out.print("Enter student ID: ");
+                    String sid = scanner.nextLine();
+                    Student student = manager.findStudentById(sid);
+
+                    System.out.print("Enter course name: ");
+                    String cname = scanner.nextLine();
+                    Course course = manager.findCourseByName(cname);
+
+                    if (student != null && course != null) {
+                        try {
+                            manager.enrollStudentInCourse(student, course);
+                        } catch (Exception e) {
+                            System.out.println("Error: " + e.getMessage());
+                        }
+                    } else {
+                        System.out.println("Student or course not found!");
+                    }
+                    break;
+
+                case 3: // View Record
+                    System.out.print("Enter student ID: ");
+                    String sid2 = scanner.nextLine();
+                    Student sRec = manager.findStudentById(sid2);
+                    if (sRec != null) {
+                        System.out.println("Student: " + sRec.getName());
+                        System.out.println("GPA: " + sRec.getGpa());
+                        System.out.println("Courses: " + sRec.getCourseGrades().keySet());
+                    } else {
+                        System.out.println("Student not found!");
+                    }
+                    break;
+
+                case 4: // Dean's List
+                    System.out.println("=== Dean's List ===");
+                    for (Student st : manager.getStudents()) {
+                        if (st.getGpa() >= 3.5) {
+                            System.out.println(st.getName() + " - GPA: " + st.getGpa());
+                        }
+                    }
+                    break;
+
+                case 5: // Save & Exit
+                    FileManager.saveData(manager.getStudents(), manager.getCourses(), "data.dat");
+                    running = false;
+                    break;
+
+                default:
+                    System.out.println("Invalid option!");
+            }
         }
 
-        System.out.println("Top Student: " + manager.findTopStudent().getName());
-        System.out.println("Average GPA: " + manager.calculateAverageGpa());
+        scanner.close();
     }
 }
