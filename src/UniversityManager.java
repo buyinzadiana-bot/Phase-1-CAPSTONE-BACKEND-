@@ -47,11 +47,40 @@ public class UniversityManager {
                 .orElse(null);
     }
 
-    // ⭐ Calculate average GPA
+    // Calculate average GPA
     public double calculateAverageGpa() {
         return students.stream()
                 .mapToDouble(Student::getGpa)
                 .average()
-                .orElse(0.0); // return 0.0 if no students
+                .orElse(0.0);
+    }
+
+    // Find student by ID
+    public Student findStudentById(String studentId) {
+        for (Student student : students) {
+            if (student.getStudentId().equals(studentId)) {
+                return student;
+            }
+        }
+        return null;
+    }
+
+    // Find course by name
+    public Course findCourseByName(String courseName) {
+        for (Course course : courses) {
+            if (course.getCourseName().equalsIgnoreCase(courseName)) {
+                return course;
+            }
+        }
+        return null;
+    }
+
+    // Getters
+    public List<Student> getStudents() {
+        return students;
+    }
+
+    public List<Course> getCourses() {
+        return courses;
     }
 }
